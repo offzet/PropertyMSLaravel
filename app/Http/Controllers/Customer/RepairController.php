@@ -10,13 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class RepairController extends Controller
 {
-    // Add this method to show all repairs
     public function index()
     {
         $user = Auth::user();
-        
+
         $repairs = Repair::with(['property', 'tenant'])
-            ->whereHas('tenant', function($query) use ($user) {
+            ->whereHas('tenant', function ($query) use ($user) {
                 $query->where('email', $user->email);
             })
             ->orderBy('created_at', 'desc')
@@ -31,14 +30,14 @@ class RepairController extends Controller
         $tenants = Tenant::where('email', $user->email)
             ->where('status', 'active')
             ->get();
-            
+
         return view('customer.repairs.create', compact('tenants'));
     }
 
     public function store(Request $request)
     {
         $user = Auth::user();
-        
+
         $validated = $request->validate([
             'tenant_id' => 'required|exists:tenants,id',
             'title' => 'required|string|max:255',
@@ -68,7 +67,7 @@ class RepairController extends Controller
         if ($repair->tenant->email !== Auth::user()->email) {
             abort(403);
         }
-        
+
         return view('customer.repairs.success', compact('repair'));
     }
 
@@ -78,7 +77,7 @@ class RepairController extends Controller
         if ($repair->tenant->email !== Auth::user()->email) {
             abort(403);
         }
-        
+
         return view('customer.repairs.show', compact('repair'));
     }
 
@@ -88,7 +87,7 @@ class RepairController extends Controller
         $tenant = Tenant::where('id', $tenantId)
             ->where('email', $user->email)
             ->firstOrFail();
-            
+
         return response()->json([
             'property' => $tenant->property
         ]);
