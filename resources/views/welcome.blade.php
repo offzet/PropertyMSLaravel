@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,7 +14,7 @@
     <!-- Animation Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
 
-    
+
     <style>
         /* Custom CSS for enhanced design */
         :root {
@@ -21,36 +22,44 @@
             --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
-        
+
         .floating {
             animation: floating 3s ease-in-out infinite;
         }
-        
+
         @keyframes floating {
-            0% { transform: translate(0, 0px); }
-            50% { transform: translate(0, 15px); }
-            100% { transform: translate(0, -0px); }
+            0% {
+                transform: translate(0, 0px);
+            }
+
+            50% {
+                transform: translate(0, 15px);
+            }
+
+            100% {
+                transform: translate(0, -0px);
+            }
         }
-        
+
         .gradient-text {
             background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .property-card {
             transition: all 0.3s ease;
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
-        
+
         .property-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
         }
-        
+
         .stat-card {
             background: white;
             border-radius: 12px;
@@ -58,12 +67,12 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
         }
-        
+
         .stat-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
-        
+
         .feature-icon {
             width: 70px;
             height: 70px;
@@ -73,7 +82,7 @@
             justify-content: center;
             margin-bottom: 1.5rem;
         }
-        
+
         .testimonial-card {
             background: white;
             border-radius: 16px;
@@ -81,7 +90,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             position: relative;
         }
-        
+
         .testimonial-card::before {
             content: "";
             position: absolute;
@@ -92,12 +101,12 @@
             opacity: 0.1;
             font-family: Georgia, serif;
         }
-        
+
         .nav-link {
             position: relative;
             padding-bottom: 5px;
         }
-        
+
         .nav-link::after {
             content: '';
             position: absolute;
@@ -108,11 +117,11 @@
             background: var(--primary-gradient);
             transition: width 0.3s ease;
         }
-        
+
         .nav-link:hover::after {
             width: 100%;
         }
-        
+
         .btn-primary {
             background: var(--primary-gradient);
             border: none;
@@ -123,12 +132,12 @@
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
-        
+
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
         }
-        
+
         .btn-outline {
             border: 2px solid #667eea;
             border-radius: 10px;
@@ -138,77 +147,82 @@
             transition: all 0.3s ease;
             background: transparent;
         }
-        
+
         .btn-outline:hover {
             background: #667eea;
             color: white;
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
-        
+
         /* Dark mode adjustments */
         @media (prefers-color-scheme: dark) {
-            .stat-card, .testimonial-card {
+
+            .stat-card,
+            .testimonial-card {
                 background: #1f2937;
             }
         }
     </style>
-    
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans overflow-x-hidden">
 
     <!-- Header -->
-    <header class="w-full max-w-7xl mx-auto px-4 py-6 sticky top-0 bg-gray-50 dark:bg-gray-900 z-50 transition-all duration-300">
-        @if (Route::has('login'))
-        <nav class="flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center shadow-md">
-                    <i class="fas fa-home text-white text-lg"></i>
+    <header class="sticky top-0 left-0 right-0 z-50 bg-gray-50 dark:bg-gray-900 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 py-6">
+            <nav class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div
+                        class="w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center shadow-md">
+                        <i class="fas fa-home text-white text-lg"></i>
+                    </div>
+                    <span class="text-2xl font-bold gradient-text">PropertyPro</span>
                 </div>
-                <span class="text-2xl font-bold gradient-text">PropertyPro</span>
-            </div>
 
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#features" class="nav-link text-gray-700 dark:text-gray-300 font-medium">Features</a>
-                <a href="#testimonials" class="nav-link text-gray-700 dark:text-gray-300 font-medium">Testimonials</a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="nav-link text-gray-700 dark:text-gray-300 font-medium">Features</a>
+                    <a href="#testimonials"
+                        class="nav-link text-gray-700 dark:text-gray-300 font-medium">Testimonials</a>
 
-            </div>
+                </div>
 
-            <div class="flex items-center gap-4">
-                @auth
-                <a href="{{ url('/dashboard') }}" class="btn-primary">
-                    Dashboard <i class="ml-2 fas fa-arrow-right"></i>
-                </a>
-                @else
-                <a href="{{ route('login') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition nav-link">
-                    Log in
-                </a>
+                <div class="flex items-center gap-4">
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="btn-primary">
+                            Dashboard <i class="ml-2 fas fa-arrow-right"></i>
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}"
+                            class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition nav-link">
+                            Log in
+                        </a>
 
-                @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="btn-primary">
-                    Get Started
-                </a>
-                @endif
-                @endauth
-                
-                <!-- Mobile menu button -->
-                <button id="mobile-menu-button" class="md:hidden text-gray-700 dark:text-gray-300">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
-        </nav>
-        
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden mt-4 py-4 border-t border-gray-200 dark:border-gray-700">
-            <div class="flex flex-col space-y-4">
-                <a href="#features" class="text-gray-700 dark:text-gray-300 font-medium">Features</a>
-                <a href="#testimonials" class="text-gray-700 dark:text-gray-300 font-medium">Testimonials</a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="btn-primary">
+                                Get Started
+                            </a>
+                        @endif
+                    @endauth
 
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-button" class="md:hidden text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 py-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex flex-col space-y-4">
+                    <a href="#features" class="text-gray-700 dark:text-gray-300 font-medium">Features</a>
+                    <a href="#testimonials" class="text-gray-700 dark:text-gray-300 font-medium">Testimonials</a>
+
+                </div>
             </div>
         </div>
-        @endif
     </header>
 
     <!-- Hero Section -->
@@ -221,22 +235,23 @@
                     Simplify Your <span class="gradient-text">Property Management</span>
                 </h1>
                 <p class="text-lg lg:text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-lg">
-                    Streamline your property operations with our comprehensive platform. Track maintenance, manage tenants,
+                    Streamline your property operations with our comprehensive platform. Track maintenance, manage
+                    tenants,
                     and optimize your investments all in one place.
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 mb-12">
                     @auth
-                    <a href="{{ url('/dashboard') }}" class="btn-primary text-center">
-                        Go to Dashboard <i class="ml-2 fas fa-arrow-right"></i>
-                    </a>
+                        <a href="{{ url('/dashboard') }}" class="btn-primary text-center">
+                            Go to Dashboard <i class="ml-2 fas fa-arrow-right"></i>
+                        </a>
                     @else
-                    <a href="{{ route('login') }}" class="btn-primary text-center">
-                        Get Started Free
-                    </a>
-                    <a href="#features" class="btn-outline text-center">
-                        Learn More
-                    </a>
+                        <a href="{{ route('login') }}" class="btn-primary text-center">
+                            Get Started Free
+                        </a>
+                        <a href="#features" class="btn-outline text-center">
+                            Learn More
+                        </a>
                     @endauth
                 </div>
 
@@ -261,11 +276,10 @@
                 <div class="property-card bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-md mx-auto floating">
                     <div class="mb-4">
                         <div class="relative rounded-xl overflow-hidden mb-4">
-                            <img 
-                                src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
-                                alt="Luxury Apartment Complex" 
-                                class="w-full h-48 object-cover">
-                            <div class="absolute top-4 right-4 bg-white dark:bg-gray-800 px-3 py-1 rounded-full shadow-md">
+                            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+                                alt="Luxury Apartment Complex" class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 right-4 bg-white dark:bg-gray-800 px-3 py-1 rounded-full shadow-md">
                                 <span class="text-sm font-medium text-gray-700 dark:text-gray-300">95% Occupied</span>
                             </div>
                         </div>
@@ -313,10 +327,14 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <!-- Floating elements for visual interest -->
-                <div class="absolute -top-4 -left-4 w-20 h-20 bg-indigo-100 dark:bg-indigo-900 rounded-full opacity-50 z-0"></div>
-                <div class="absolute -bottom-6 -right-6 w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full opacity-50 z-0"></div>
+                <div
+                    class="absolute -top-4 -left-4 w-20 h-20 bg-indigo-100 dark:bg-indigo-900 rounded-full opacity-50 z-0">
+                </div>
+                <div
+                    class="absolute -bottom-6 -right-6 w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full opacity-50 z-0">
+                </div>
             </div>
         </div>
     </section>
@@ -324,13 +342,16 @@
     <!-- Features Section -->
     <section id="features" class="py-16 bg-gray-100 dark:bg-gray-800">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <h2 class="text-3xl lg:text-4xl font-bold mb-4" data-aos="fade-up">Everything You Need to Manage Properties</h2>
-            <p class="text-lg text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+            <h2 class="text-3xl lg:text-4xl font-bold mb-4" data-aos="fade-up">Everything You Need to Manage
+                Properties</h2>
+            <p class="text-lg text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto" data-aos="fade-up"
+                data-aos-delay="100">
                 Our platform provides all the tools you need to efficiently manage your property portfolio.
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow hover:shadow-lg transition" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow hover:shadow-lg transition"
+                    data-aos="fade-up" data-aos-delay="200">
                     <div class="feature-icon bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto">
                         <i class="fas fa-users text-white text-2xl"></i>
                     </div>
@@ -340,7 +361,8 @@
                     </p>
                 </div>
 
-                <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow hover:shadow-lg transition" data-aos="fade-up" data-aos-delay="300">
+                <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow hover:shadow-lg transition"
+                    data-aos="fade-up" data-aos-delay="300">
                     <div class="feature-icon bg-gradient-to-r from-green-400 to-blue-500 mx-auto">
                         <i class="fas fa-tools text-white text-2xl"></i>
                     </div>
@@ -349,7 +371,8 @@
                         Streamline maintenance requests and track repair status easily.
                     </p>
                 </div>
-                <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow hover:shadow-lg transition" data-aos="fade-up" data-aos-delay="700">
+                <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow hover:shadow-lg transition"
+                    data-aos="fade-up" data-aos-delay="700">
                     <div class="feature-icon bg-gradient-to-r from-teal-400 to-cyan-500 mx-auto">
                         <i class="fas fa-shield-alt text-white text-2xl"></i>
                     </div>
@@ -359,7 +382,7 @@
                     </p>
                 </div>
             </div>
-            
+
         </div>
     </section>
 
@@ -367,14 +390,16 @@
     <section id="testimonials" class="py-16">
         <div class="max-w-7xl mx-auto px-4">
             <h2 class="text-3xl lg:text-4xl font-bold mb-4 text-center" data-aos="fade-up">What Our Clients Say</h2>
-            <p class="text-lg text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto text-center" data-aos="fade-up" data-aos-delay="100">
+            <p class="text-lg text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto text-center" data-aos="fade-up"
+                data-aos-delay="100">
                 Hear from property managers who have transformed their business with our platform.
             </p>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
                     <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold mr-4">
+                        <div
+                            class="w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold mr-4">
                             SJ
                         </div>
                         <div>
@@ -383,7 +408,8 @@
                         </div>
                     </div>
                     <p class="text-gray-600 dark:text-gray-400">
-                        "This platform has cut our administrative work by 60%. The maintenance tracking feature alone has saved us countless hours each week."
+                        "This platform has cut our administrative work by 60%. The maintenance tracking feature alone
+                        has saved us countless hours each week."
                     </p>
                     <div class="flex mt-4">
                         <i class="fas fa-star text-yellow-400"></i>
@@ -393,10 +419,11 @@
                         <i class="fas fa-star text-yellow-400"></i>
                     </div>
                 </div>
-                
+
                 <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
                     <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center text-white font-bold mr-4">
+                        <div
+                            class="w-12 h-12 rounded-full bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center text-white font-bold mr-4">
                             MR
                         </div>
                         <div>
@@ -405,7 +432,8 @@
                         </div>
                     </div>
                     <p class="text-gray-600 dark:text-gray-400">
-                        "As someone with multiple properties across the city, having a centralized dashboard has been a game-changer for tracking performance."
+                        "As someone with multiple properties across the city, having a centralized dashboard has been a
+                        game-changer for tracking performance."
                     </p>
                     <div class="flex mt-4">
                         <i class="fas fa-star text-yellow-400"></i>
@@ -415,10 +443,11 @@
                         <i class="fas fa-star text-yellow-400"></i>
                     </div>
                 </div>
-                
+
                 <div class="testimonial-card" data-aos="fade-up" data-aos-delay="400">
                     <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 flex items-center justify-center text-white font-bold mr-4">
+                        <div
+                            class="w-12 h-12 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 flex items-center justify-center text-white font-bold mr-4">
                             ED
                         </div>
                         <div>
@@ -427,7 +456,8 @@
                         </div>
                     </div>
                     <p class="text-gray-600 dark:text-gray-400">
-                        "The financial reporting features have given me insights I never had before. I can now make data-driven decisions about my properties."
+                        "The financial reporting features have given me insights I never had before. I can now make
+                        data-driven decisions about my properties."
                     </p>
                     <div class="flex mt-4">
                         <i class="fas fa-star text-yellow-400"></i>
@@ -448,7 +478,8 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                 <div>
                     <div class="flex items-center space-x-2 mb-4">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center">
+                        <div
+                            class="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center">
                             <i class="fas fa-home text-white"></i>
                         </div>
                         <span class="text-xl font-bold">PropertyPro</span>
@@ -471,39 +502,63 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <div>
                     <h3 class="font-bold text-lg mb-4">Product</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Features</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Pricing</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Integrations</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Updates</a></li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Features</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Pricing</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Integrations</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Updates</a>
+                        </li>
                     </ul>
                 </div>
-                
+
                 <div>
                     <h3 class="font-bold text-lg mb-4">Resources</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Blog</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Documentation</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Community</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Support</a></li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Blog</a></li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Documentation</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Community</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Support</a>
+                        </li>
                     </ul>
                 </div>
-                
+
                 <div>
                     <h3 class="font-bold text-lg mb-4">Company</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">About</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Careers</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Contact</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Partners</a></li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">About</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Careers</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Contact</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition">Partners</a>
+                        </li>
                     </ul>
                 </div>
             </div>
-            
-            <div class="pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col md:flex-row justify-between items-center">
+
+            <div
+                class="pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col md:flex-row justify-between items-center">
                 <div class="text-sm text-gray-500 dark:text-gray-400 mb-4 md:mb-0">
                     © 2025 PropertyPro. All rights reserved.
                 </div>
@@ -527,32 +582,32 @@
                 once: true,
                 offset: 100
             });
-            
+
             // Mobile menu toggle
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            
+
             if (mobileMenuButton && mobileMenu) {
                 mobileMenuButton.addEventListener('click', function() {
                     mobileMenu.classList.toggle('hidden');
                 });
             }
-            
+
             // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
+                anchor.addEventListener('click', function(e) {
                     e.preventDefault();
-                    
+
                     const targetId = this.getAttribute('href');
                     if (targetId === '#') return;
-                    
+
                     const targetElement = document.querySelector(targetId);
                     if (targetElement) {
                         window.scrollTo({
                             top: targetElement.offsetTop - 80,
                             behavior: 'smooth'
                         });
-                        
+
                         // Close mobile menu if open
                         if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                             mobileMenu.classList.add('hidden');
@@ -563,4 +618,5 @@
         });
     </script>
 </body>
+
 </html>
