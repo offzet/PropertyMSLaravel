@@ -30,15 +30,15 @@ Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'admin'])->group(function () {
     // Dashboard
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
-    
+
     // Properties Routes
     Route::get('/properties/search', [PropertyController::class, 'search'])->name('properties.search');
     Route::resource('/properties', PropertyController::class);
-    
+
     // Tenants Routes
     Route::get('/tenants/search', [TenantController::class, 'search'])->name('tenants.search');
     Route::resource('/tenants', TenantController::class);
-    
+
     // Repairs Routes
     Route::get('/repairs/search', [RepairController::class, 'search'])->name('repairs.search');
     Route::get('/repairs/{repair}/get-tenants', [RepairController::class, 'getTenantsByProperty'])->name('repairs.get-tenants');
@@ -51,21 +51,21 @@ Route::prefix('customer')->name('customer.')->middleware(['auth', 'verified'])->
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
-    
+
     // Properties
     Route::get('/properties', [DashboardController::class, 'properties'])->name('properties.index');
     Route::get('/properties/ajax-search', [DashboardController::class, 'ajaxSearch'])->name('properties.ajax-search');
     Route::get('/properties/{property}', [DashboardController::class, 'showProperty'])->name('properties.show');
-    
+
     // Applications
     Route::get('/properties/{property}/apply', [ApplicationController::class, 'create'])->name('applications.create');
     Route::post('/properties/{property}/apply', [ApplicationController::class, 'store'])->name('applications.store');
     Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
-    
+
     // Leases (My Rentals)
     Route::get('/leases', [LeaseController::class, 'index'])->name('leases.index');
     Route::get('/leases/{tenant}', [LeaseController::class, 'show'])->name('leases.show');
-    
+
     // Repairs
     Route::get('/repairs', [CustomerRepairController::class, 'index'])->name('repairs.index');
     Route::get('/repairs/create', [CustomerRepairController::class, 'create'])->name('repairs.create');
@@ -86,4 +86,4 @@ Route::middleware('auth')->group(function () {
 Route::get('/auth/{provider}/redirect', ProviderRedirectController::class)->name('auth.redirect');
 Route::get('/auth/{provider}/callback', ProviderCallbackController::class)->name('auth.callback');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

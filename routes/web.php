@@ -1,15 +1,17 @@
 <?php
 
-//Mark Andrew S. Baliguat && John Irish C. Jacinto == BSIT 4-2
+// John Irish C. Jacinto && Mark Andrew S. Baliguat  == BSIT 4-2
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Socialite\ProviderRedirectController;
 use App\Http\Controllers\Socialite\ProviderCallbackController;
+
 use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\RepairController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+
 use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\Customer\ApplicationController;
 use App\Http\Controllers\Customer\LeaseController;
