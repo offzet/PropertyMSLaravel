@@ -14,8 +14,8 @@ class ApplicationController extends Controller
     {
         // Get all applications for the current user (by email)
         $applications = Tenant::where('email', Auth::user()->email)
-                            ->orderBy('created_at', 'desc')
-                            ->get();
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('customer.properties.index', compact('applications'));
     }
@@ -26,7 +26,7 @@ class ApplicationController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'required|string|max:20',
-            'lease_start' => 'required|date',
+            'lease_start' => 'required|date|after_or_equal:today',
             'lease_end' => 'required|date|after:lease_start',
             'message' => 'nullable|string',
             'terms' => 'required|accepted',
