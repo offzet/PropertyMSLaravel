@@ -298,7 +298,7 @@
                             <button type="submit"
                                 class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-semibold text-center transition duration-300 transform hover:scale-105 flex items-center justify-center">
                                 <i class="fas fa-file-contract mr-2"></i>
-                                Pay to Submit Rental Application
+                                Submit Rental Application
                             </button>
                         </form>
                     @else
@@ -316,7 +316,7 @@
                                     </span>
                                     <p class="text-orange-600 text-sm mt-1">
                                         @if ($property->status != 'available')
-                                            Sorry, this property has already been rented or sold by another customer and
+                                            Sorry, this property has already been rented by another customer and
                                             is waiting for admin confirmation.
                                         @elseif($hasPendingApplications)
                                             Sorry, this property already has a pending or approved application from

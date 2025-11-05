@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <!-- Include jsPDF library for PDF generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
+
 <body class="bg-gray-50 min-h-screen">
     <!-- Navigation -->
     <x-layouts.customer-nav />
@@ -22,21 +24,23 @@
                 <i class="fas fa-chevron-right text-blue-300"></i>
                 <span class="text-white font-semibold">{{ $tenant->property_unit }}</span>
             </nav>
-            
+
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                 <div>
                     <h1 class="text-4xl font-bold mb-3">Lease Agreement</h1>
                     <div class="flex items-center space-x-4">
-                        <span class="px-4 py-2 rounded-full text-sm font-semibold bg-white bg-opacity-20 backdrop-blur-sm 
-                            {{ $tenant->status == 'active' ? 'text-green-300' : 
-                               ($tenant->status == 'pending' ? 'text-yellow-300' : 'text-red-300') }}">
-                            <i class="fas fa-{{ $tenant->status == 'active' ? 'check-circle' : ($tenant->status == 'pending' ? 'clock' : 'times-circle') }} mr-2"></i>
+                        <span
+                            class="px-4 py-2 rounded-full text-sm font-semibold bg-white bg-opacity-20 backdrop-blur-sm
+                            {{ $tenant->status == 'active'
+                                ? 'text-green-300'
+                                : ($tenant->status == 'pending'
+                                    ? 'text-yellow-300'
+                                    : 'text-red-300') }}">
+                            <i
+                                class="fas fa-{{ $tenant->status == 'active' ? 'check-circle' : ($tenant->status == 'pending' ? 'clock' : 'times-circle') }} mr-2"></i>
                             {{ ucfirst($tenant->status) }}
                         </span>
-                        <div class="flex items-center text-blue-200">
-                            <i class="fas fa-map-marker-alt mr-2"></i>
-                            <span>{{ $tenant->property->location ?? 'N/A' }}</span>
-                        </div>
+
                     </div>
                 </div>
                 <div class="mt-4 lg:mt-0">
@@ -57,9 +61,11 @@
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                         <div class="mb-4 md:mb-0">
                             <h2 class="text-xl font-bold text-gray-900 mb-2">Download Professional Lease Agreement</h2>
-                            <p class="text-gray-600">Get a complete PDF copy with all terms, conditions, and legal provisions.</p>
+                            <p class="text-gray-600">Get a complete PDF copy with all terms, conditions, and legal
+                                provisions.</p>
                         </div>
-                        <button id="downloadLeaseBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center">
+                        <button id="downloadLeaseBtn"
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center">
                             <i class="fas fa-file-download mr-2"></i>
                             Download Lease Agreement
                         </button>
@@ -90,12 +96,13 @@
                             <div>
                                 <p class="text-sm text-gray-600">Lease Duration</p>
                                 <p class="text-lg font-bold text-gray-900">
-                                    {{ \Carbon\Carbon::parse($tenant->lease_start)->diffInMonths(\Carbon\Carbon::parse($tenant->lease_end)) }} months
+                                    {{ floor(\Carbon\Carbon::parse($tenant->lease_start)->floatDiffInMonths(\Carbon\Carbon::parse($tenant->lease_end))) }}
+                                    months
                                 </p>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-green-500">
                         <div class="flex items-center">
                             <div class="p-3 bg-green-100 rounded-lg mr-4">
@@ -104,16 +111,22 @@
                             <div>
                                 <p class="text-sm text-gray-600">Days Remaining</p>
                                 <p class="text-lg font-bold text-gray-900">
-                                    @if(\Carbon\Carbon::parse($tenant->lease_end)->isPast())
+                                    @php
+                                        $endDate = \Carbon\Carbon::parse($tenant->lease_end)->startOfDay();
+                                        $today = \Carbon\Carbon::now()->startOfDay();
+                                        $isExpired = $today->gt($endDate);
+                                        $daysRemaining = $today->diffInDays($endDate);
+                                    @endphp
+                                    @if ($isExpired)
                                         <span class="text-red-600">Expired</span>
                                     @else
-                                        {{ \Carbon\Carbon::parse($tenant->lease_end)->diffInDays(\Carbon\Carbon::now()) }}
+                                        {{ $daysRemaining }}
                                     @endif
                                 </p>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-purple-500">
                         <div class="flex items-center">
                             <div class="p-3 bg-purple-100 rounded-lg mr-4">
@@ -121,7 +134,8 @@
                             </div>
                             <div>
                                 <p class="text-sm text-gray-600">Property Type</p>
-                                <p class="text-lg font-bold text-gray-900">{{ ucfirst($tenant->property->type ?? 'N/A') }}</p>
+                                <p class="text-lg font-bold text-gray-900">
+                                    {{ ucfirst($tenant->property->type ?? 'N/A') }}</p>
                             </div>
                         </div>
                     </div>
@@ -134,7 +148,7 @@
                         Lease Information
                     </h2>
                     <p class="text-gray-600 mb-6">Complete details of your rental agreement</p>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <!-- Tenant Information -->
                         <div class="space-y-6">
@@ -154,12 +168,13 @@
                                     </div>
                                     <div class="flex justify-between items-center py-2">
                                         <span class="text-gray-600 font-medium">Phone:</span>
-                                        <span class="font-semibold text-gray-900">{{ $tenant->phone ?? 'Not provided' }}</span>
+                                        <span
+                                            class="font-semibold text-gray-900">{{ $tenant->phone ?? 'Not provided' }}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Property Information -->
                         <div class="space-y-6">
                             <div class="bg-green-50 rounded-xl p-4">
@@ -174,11 +189,13 @@
                                     </div>
                                     <div class="flex justify-between items-center py-2 border-b border-green-100">
                                         <span class="text-gray-600 font-medium">Location:</span>
-                                        <span class="font-semibold text-gray-900">{{ $tenant->property->location ?? 'N/A' }}</span>
+                                        <span
+                                            class="font-semibold text-gray-900">{{ $tenant->property->location ?? 'N/A' }}</span>
                                     </div>
                                     <div class="flex justify-between items-center py-2">
                                         <span class="text-gray-600 font-medium">Type:</span>
-                                        <span class="font-semibold text-gray-900">{{ $tenant->property->type ?? 'N/A' }}</span>
+                                        <span
+                                            class="font-semibold text-gray-900">{{ $tenant->property->type ?? 'N/A' }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -193,7 +210,7 @@
                         Lease Period & Payment
                     </h2>
                     <p class="text-gray-600 mb-6">Rental duration and payment details</p>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <!-- Lease Duration -->
                         <div class="space-y-6">
@@ -204,18 +221,20 @@
                                         <i class="fas fa-play text-green-500 mr-3"></i>
                                         <span class="text-gray-700">Start Date</span>
                                     </div>
-                                    <span class="font-semibold text-gray-900">{{ \Carbon\Carbon::parse($tenant->lease_start)->format('F d, Y') }}</span>
+                                    <span
+                                        class="font-semibold text-gray-900">{{ \Carbon\Carbon::parse($tenant->lease_start)->format('F d, Y') }}</span>
                                 </div>
                                 <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                                     <div class="flex items-center">
                                         <i class="fas fa-flag-checkered text-red-500 mr-3"></i>
                                         <span class="text-gray-700">End Date</span>
                                     </div>
-                                    <span class="font-semibold text-gray-900">{{ \Carbon\Carbon::parse($tenant->lease_end)->format('F d, Y') }}</span>
+                                    <span
+                                        class="font-semibold text-gray-900">{{ \Carbon\Carbon::parse($tenant->lease_end)->format('F d, Y') }}</span>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Payment Details -->
                         <div class="space-y-6">
                             <h3 class="text-lg font-semibold text-gray-900 mb-4">Payment Details</h3>
@@ -225,7 +244,8 @@
                                         <i class="fas fa-money-bill-wave text-blue-500 mr-3"></i>
                                         <span class="text-gray-700">Monthly Rent</span>
                                     </div>
-                                    <span class="text-xl font-bold text-blue-600">₱{{ number_format($tenant->rent_amount, 2) }}</span>
+                                    <span
+                                        class="text-xl font-bold text-blue-600">₱{{ number_format($tenant->rent_amount, 2) }}</span>
                                 </div>
                                 <div class="flex items-center justify-between p-4 bg-yellow-50 rounded-lg">
                                     <div class="flex items-center">
@@ -243,33 +263,45 @@
             <!-- Sidebar -->
             <div class="space-y-6">
                 <!-- Status Card -->
-                <div class="bg-white rounded-2xl shadow-lg p-6 border-2 
-                    {{ $tenant->status == 'active' ? 'border-green-200' : 
-                       ($tenant->status == 'pending' ? 'border-yellow-200' : 'border-red-200') }}">
+                <div
+                    class="bg-white rounded-2xl shadow-lg p-6 border-2
+                    {{ $tenant->status == 'active'
+                        ? 'border-green-200'
+                        : ($tenant->status == 'pending'
+                            ? 'border-yellow-200'
+                            : 'border-red-200') }}">
                     <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                        <i class="fas fa-info-circle mr-2 
-                            {{ $tenant->status == 'active' ? 'text-green-600' : 
-                               ($tenant->status == 'pending' ? 'text-yellow-600' : 'text-red-600') }}"></i>
+                        <i
+                            class="fas fa-info-circle mr-2
+                            {{ $tenant->status == 'active'
+                                ? 'text-green-600'
+                                : ($tenant->status == 'pending'
+                                    ? 'text-yellow-600'
+                                    : 'text-red-600') }}"></i>
                         Lease Status
                     </h3>
-                    
-                    @if($tenant->status == 'active')
-                        <div class="bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-xl p-4">
+
+                    @if ($tenant->status == 'active')
+                        <div
+                            class="bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-xl p-4">
                             <div class="flex items-center">
                                 <i class="fas fa-check-circle text-green-500 text-2xl mr-3"></i>
                                 <div>
                                     <span class="text-green-800 font-bold text-lg">Active Lease</span>
-                                    <p class="text-green-600 text-sm mt-1">Your lease agreement is currently active and in good standing.</p>
+                                    <p class="text-green-600 text-sm mt-1">Your lease agreement is currently active and
+                                        in good standing.</p>
                                 </div>
                             </div>
                         </div>
                     @elseif($tenant->status == 'pending')
-                        <div class="bg-gradient-to-r from-yellow-50 to-yellow-100 border border-yellow-200 rounded-xl p-4">
+                        <div
+                            class="bg-gradient-to-r from-yellow-50 to-yellow-100 border border-yellow-200 rounded-xl p-4">
                             <div class="flex items-center">
                                 <i class="fas fa-clock text-yellow-500 text-2xl mr-3"></i>
                                 <div>
                                     <span class="text-yellow-800 font-bold text-lg">Pending Approval</span>
-                                    <p class="text-yellow-600 text-sm mt-1">Your application is under review by our team.</p>
+                                    <p class="text-yellow-600 text-sm mt-1">Your application is under review by our
+                                        team.</p>
                                 </div>
                             </div>
                         </div>
@@ -292,7 +324,7 @@
                         <i class="fas fa-headset mr-2"></i>
                         Need Help?
                     </h3>
-                    
+
                     <div class="space-y-4 mb-6">
                         <div class="flex items-center bg-white bg-opacity-20 rounded-lg p-3">
                             <i class="fas fa-phone-alt mr-3 text-blue-200"></i>
@@ -312,13 +344,17 @@
                 <div class="bg-white rounded-2xl shadow-lg p-6">
                     <h3 class="text-xl font-bold text-gray-900 mb-4">Quick Actions</h3>
                     <div class="space-y-3">
-                        <button id="sidebarDownloadBtn" class="w-full flex items-center p-3 bg-gray-50 hover:bg-blue-50 rounded-lg transition-colors group">
+                        <button id="sidebarDownloadBtn"
+                            class="w-full flex items-center p-3 bg-gray-50 hover:bg-blue-50 rounded-lg transition-colors group">
                             <i class="fas fa-file-download text-gray-400 group-hover:text-blue-600 mr-3"></i>
-                            <span class="text-gray-700 group-hover:text-blue-600 font-medium">Download Lease Agreement</span>
+                            <span class="text-gray-700 group-hover:text-blue-600 font-medium">Download Lease
+                                Agreement</span>
                         </button>
-                        <a href="{{ route('customer.repairs.create') }}" class="flex items-center p-3 bg-gray-50 hover:bg-purple-50 rounded-lg transition-colors group">
+                        <a href="{{ route('customer.repairs.create') }}"
+                            class="flex items-center p-3 bg-gray-50 hover:bg-purple-50 rounded-lg transition-colors group">
                             <i class="fas fa-tools text-gray-400 group-hover:text-purple-600 mr-3"></i>
-                            <span class="text-gray-700 group-hover:text-purple-600 font-medium">Request Maintenance</span>
+                            <span class="text-gray-700 group-hover:text-purple-600 font-medium">Request
+                                Maintenance</span>
                         </a>
                     </div>
                 </div>
@@ -351,15 +387,17 @@
             const sidebarDownloadBtn = document.getElementById('sidebarDownloadBtn');
             const loadingIndicator = document.getElementById('loadingIndicator');
             const successMessage = document.getElementById('successMessage');
-            
+
             // Function to generate professional lease agreement PDF
             function generateProfessionalLeasePDF() {
                 // Show loading indicator
                 loadingIndicator.classList.remove('hidden');
                 successMessage.classList.add('hidden');
-                
+
                 // Use jsPDF to create the PDF
-                const { jsPDF } = window.jspdf;
+                const {
+                    jsPDF
+                } = window.jspdf;
                 const doc = new jsPDF();
                 let yPosition = 20;
                 const lineHeight = 6;
@@ -386,10 +424,10 @@
                     if (isBold) {
                         doc.setFont(undefined, 'bold');
                     }
-                    
+
                     const lines = doc.splitTextToSize(text, contentWidth);
                     doc.text(lines, margin, y);
-                    
+
                     if (isBold) {
                         doc.setFont(undefined, 'normal');
                     }
@@ -405,17 +443,23 @@
                     return y;
                 }
 
-                // HEADER -- sa 
+                // HEADER -- sa
                 doc.setFillColor(52, 152, 219);
                 doc.rect(0, 0, pageWidth, 45, 'F');
                 doc.setTextColor(255, 255, 255);
                 doc.setFontSize(22);
                 doc.setFont(undefined, 'bold');
-                doc.text('RESIDENTIAL LEASE AGREEMENT', pageWidth / 2, 20, { align: 'center' });
+                doc.text('RESIDENTIAL LEASE AGREEMENT', pageWidth / 2, 20, {
+                    align: 'center'
+                });
                 doc.setFontSize(12);
-                doc.text('PROPERTY MANAGEMENT SERVICES', pageWidth / 2, 30, { align: 'center' });
+                doc.text('PROPERTY MANAGEMENT SERVICES', pageWidth / 2, 30, {
+                    align: 'center'
+                });
                 doc.setFontSize(10);
-                doc.text('Professional Property Management Company', pageWidth / 2, 38, { align: 'center' });
+                doc.text('Professional Property Management Company', pageWidth / 2, 38, {
+                    align: 'center'
+                });
                 doc.setTextColor(0, 0, 0);
 
                 yPosition = 60;
@@ -423,54 +467,60 @@
                 // PARTIES SECTION
                 yPosition = addSection('1. PARTIES TO THIS AGREEMENT', yPosition);
                 yPosition = checkPageBreak(yPosition);
-                
-                yPosition = addText('This Lease Agreement ("Agreement") is made and entered into on ' + 
-                    '{{ \Carbon\Carbon::now()->format("F d, Y") }}' + 
+
+                yPosition = addText('This Lease Agreement ("Agreement") is made and entered into on ' +
+                    '{{ \Carbon\Carbon::now()->format('F d, Y') }}' +
                     ' between:', yPosition);
                 yPosition += lineHeight;
-                
+
                 yPosition = addText('LANDLORD/PROPERTY MANAGER:', yPosition, true);
                 yPosition = addText('Property Management Services', yPosition);
                 yPosition = addText('Professional Property Management Company', yPosition);
                 yPosition = addText('Email: support@propertymanager.com | Phone: +63 912 345 6789', yPosition);
                 yPosition += lineHeight;
-                
+
                 yPosition = addText('TENANT:', yPosition, true);
                 yPosition = addText('{{ $tenant->name }}', yPosition);
                 yPosition = addText('Email: {{ $tenant->email }}', yPosition);
-                yPosition = addText('Phone: {{ $tenant->phone ?? "Not provided" }}', yPosition);
+                yPosition = addText('Phone: {{ $tenant->phone ?? 'Not provided' }}', yPosition);
                 yPosition += lineHeight;
 
                 // PROPERTY INFORMATION
                 yPosition = addSection('2. PROPERTY INFORMATION', yPosition);
                 yPosition = checkPageBreak(yPosition);
-                
-                yPosition = addText('The Landlord agrees to lease to the Tenant the following residential property:', yPosition);
+
+                yPosition = addText(
+                    'The Landlord agrees to lease to the Tenant the following residential property:', yPosition);
                 yPosition += lineHeight;
-                
+
                 yPosition = addText('Property Unit: {{ $tenant->property_unit }}', yPosition, true);
-                yPosition = addText('Location: {{ $tenant->property->location ?? "N/A" }}', yPosition);
-                yPosition = addText('Property Type: {{ $tenant->property->type ?? "N/A" }}', yPosition);
+                yPosition = addText('Location: {{ $tenant->property->location ?? 'N/A' }}', yPosition);
+                yPosition = addText('Property Type: {{ $tenant->property->type ?? 'N/A' }}', yPosition);
                 yPosition += lineHeight;
 
                 // LEASE TERM
                 yPosition = addSection('3. LEASE TERM', yPosition);
                 yPosition = checkPageBreak(yPosition);
-                
-                yPosition = addText('The lease term shall be for a period of ' + 
-                    '{{ \Carbon\Carbon::parse($tenant->lease_start)->diffInMonths(\Carbon\Carbon::parse($tenant->lease_end)) }} months' + 
+
+                yPosition = addText('The lease term shall be for a period of ' +
+                    '{{ \Carbon\Carbon::parse($tenant->lease_start)->diffInMonths(\Carbon\Carbon::parse($tenant->lease_end)) }} months' +
                     ' commencing on:', yPosition);
                 yPosition += lineHeight;
-                
-                yPosition = addText('Commencement Date: {{ \Carbon\Carbon::parse($tenant->lease_start)->format("F d, Y") }}', yPosition, true);
-                yPosition = addText('Expiration Date: {{ \Carbon\Carbon::parse($tenant->lease_end)->format("F d, Y") }}', yPosition, true);
+
+                yPosition = addText(
+                    'Commencement Date: {{ \Carbon\Carbon::parse($tenant->lease_start)->format('F d, Y') }}',
+                    yPosition, true);
+                yPosition = addText(
+                    'Expiration Date: {{ \Carbon\Carbon::parse($tenant->lease_end)->format('F d, Y') }}',
+                    yPosition, true);
                 yPosition += lineHeight;
 
                 // RENTAL PAYMENTS
                 yPosition = addSection('4. RENTAL PAYMENTS AND CHARGES', yPosition);
                 yPosition = checkPageBreak(yPosition);
-                
-                yPosition = addText('4.1 Monthly Rent: ₱{{ number_format($tenant->rent_amount, 2) }}', yPosition, true);
+
+                yPosition = addText('4.1 Monthly Rent: ₱{{ number_format($tenant->rent_amount, 2) }}', yPosition,
+                    true);
                 yPosition = addText('4.2 Payment Due Date: 5th day of each calendar month', yPosition);
                 yPosition = addText('4.3 Late Payment Fee: 5% of monthly rent if paid after due date', yPosition);
                 yPosition = addText('4.4 Security Deposit: Equivalent to one (1) month\'s rent', yPosition);
@@ -480,7 +530,7 @@
                 // TERMS AND CONDITIONS
                 yPosition = addSection('5. TERMS AND CONDITIONS', yPosition);
                 yPosition = checkPageBreak(yPosition);
-                
+
                 const terms = [
                     '5.1 USE OF PROPERTY: Tenant shall use the property exclusively as a private residential dwelling.',
                     '5.2 MAINTENANCE: Tenant shall maintain the property in clean, sanitary, and good condition.',
@@ -505,19 +555,21 @@
                 // SIGNATURES SECTION
                 yPosition = addSection('6. SIGNATURES', yPosition + 10);
                 yPosition = checkPageBreak(yPosition);
-                
-                yPosition = addText('IN WITNESS WHEREOF, the parties have executed this Agreement as of the date first above written.', yPosition);
+
+                yPosition = addText(
+                    'IN WITNESS WHEREOF, the parties have executed this Agreement as of the date first above written.',
+                    yPosition);
                 yPosition += 15;
-                
+
                 // Landlord signature area
                 yPosition = addText('_________________________', yPosition, false, 12);
                 yPosition = addText('LANDLORD/PROPERTY MANAGER', yPosition, true);
                 yPosition = addText('Property Management Services', yPosition);
                 yPosition = addText('Date: ___________________', yPosition);
                 yPosition += 15;
-                
+
                 yPosition = checkPageBreak(yPosition);
-                
+
                 // Tenant signature area
                 yPosition = addText('_________________________', yPosition, false, 12);
                 yPosition = addText('TENANT', yPosition, true);
@@ -538,34 +590,39 @@
                 doc.setTextColor(100, 100, 100);
                 const today = new Date();
                 const dateString = today.toLocaleDateString();
-                doc.text('Document generated on ' + dateString + ' • Property Management Services • Confidential and Proprietary', 
-                        pageWidth / 2, 290, { align: 'center' });
+                doc.text('Document generated on ' + dateString +
+                    ' • Property Management Services • Confidential and Proprietary',
+                    pageWidth / 2, 290, {
+                        align: 'center'
+                    });
 
                 // Save the PDF
                 setTimeout(function() {
-                    const fileName = 'Lease_Agreement_{{ $tenant->property_unit }}_' + dateString.replace(/\//g, '-') + '.pdf';
+                    const fileName = 'Lease_Agreement_{{ $tenant->property_unit }}_' + dateString.replace(
+                        /\//g, '-') + '.pdf';
                     doc.save(fileName);
-                    
+
                     // Hide loading indicator and show success message
                     loadingIndicator.classList.add('hidden');
                     successMessage.classList.remove('hidden');
-                    
+
                     // Hide success message after 3 seconds
                     setTimeout(function() {
                         successMessage.classList.add('hidden');
                     }, 3000);
                 }, 1500);
             }
-            
+
             // Add event listeners to both download buttons
             if (downloadBtn) {
                 downloadBtn.addEventListener('click', generateProfessionalLeasePDF);
             }
-            
+
             if (sidebarDownloadBtn) {
                 sidebarDownloadBtn.addEventListener('click', generateProfessionalLeasePDF);
             }
         });
     </script>
 </body>
+
 </html>

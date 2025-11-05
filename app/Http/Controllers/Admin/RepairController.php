@@ -13,76 +13,76 @@ class RepairController extends Controller
     public function index(Request $request)
     {
         $query = Repair::with(['property', 'tenant']);
-        
+
         // Search functionality
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%")
-                  ->orWhereHas('property', function($q) use ($search) {
-                      $q->where('name', 'like', "%{$search}%");
-                  })
-                  ->orWhereHas('tenant', function($q) use ($search) {
-                      $q->where('name', 'like', "%{$search}%");
-                  });
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhereHas('property', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('tenant', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    });
             });
         }
-        
+
         // Status filter
         if ($request->has('status') && $request->status != '') {
             $query->where('status', $request->status);
         }
-        
+
         // Priority filter
         if ($request->has('priority') && $request->priority != '') {
             $query->where('priority', $request->priority);
         }
-        
+
         // Sort by latest
         $query->orderBy('created_at', 'desc');
-        
-        $repairs = $query->paginate(2)->withQueryString();
-        
+
+        $repairs = $query->paginate(4)->withQueryString();
+
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('admin.repairs.partials.repairs_table', compact('repairs'))->render(),
                 'pagination' => view('admin.repairs.partials.pagination', compact('repairs'))->render()
             ]);
         }
-        
+
         return view('admin.repairs.index', compact('repairs'));
     }
 
     public function search(Request $request)
     {
         $query = Repair::with(['property', 'tenant']);
-        
+
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%")
-                  ->orWhereHas('property', function($q) use ($search) {
-                      $q->where('name', 'like', "%{$search}%");
-                  })
-                  ->orWhereHas('tenant', function($q) use ($search) {
-                      $q->where('name', 'like', "%{$search}%");
-                  });
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhereHas('property', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('tenant', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    });
             });
         }
-        
+
         if ($request->has('status') && $request->status != '') {
             $query->where('status', $request->status);
         }
-        
+
         if ($request->has('priority') && $request->priority != '') {
             $query->where('priority', $request->priority);
         }
-        
+
         $query->orderBy('created_at', 'desc');
-        $repairs = $query->paginate(2);
-        
+        $repairs = $query->paginate(4);
+
         return response()->json([
             'html' => view('admin.repairs.partials.repairs_table', compact('repairs'))->render(),
             'pagination' => view('admin.repairs.partials.pagination', compact('repairs'))->render()

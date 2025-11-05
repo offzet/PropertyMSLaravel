@@ -26,7 +26,7 @@ class ApplicationController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'required|string|max:20',
-            'lease_start' => 'required|date|after_or_equal:today',
+            'lease_start' => 'required|date',
             'lease_end' => 'required|date|after:lease_start',
             'message' => 'nullable|string',
             'terms' => 'required|accepted',
@@ -35,7 +35,7 @@ class ApplicationController extends Controller
         // Check if property is still available
         if ($property->status !== 'available') {
             return redirect()->back()
-                ->with('error', 'Sorry, this property has already been rented or sold by another customer and is waiting for admin confirmation.')
+                ->with('error', 'Sorry, this property has already been rented by another customer and is waiting for admin confirmation.')
                 ->withInput();
         }
 

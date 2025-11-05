@@ -14,67 +14,67 @@ class TenantController extends Controller
     public function index(Request $request)
     {
         $query = Tenant::with('property');
-        
+
         // Search functionality
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('phone', 'like', "%{$search}%")
-                  ->orWhere('property_unit', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhere('property_unit', 'like', "%{$search}%");
             });
         }
-        
+
         // Status filter
         if ($request->has('status') && $request->status != '') {
             $query->where('status', $request->status);
         }
-        
+
         // Property filter
         if ($request->has('property_id') && $request->property_id != '') {
             $query->where('property_id', $request->property_id);
         }
-        
+
         // Sort functionality
         $sort = $request->get('sort', 'created_at');
         $order = $request->get('order', 'desc');
         $query->orderBy($sort, $order);
-        
-        $tenants = $query->paginate(2)->withQueryString();
+
+        $tenants = $query->paginate(4)->withQueryString();
         $properties = Property::all();
-        
+
         if ($request->ajax()) {
             return view('admin.tenants.partials.tenants_table', compact('tenants'))->render();
         }
-        
+
         return view('admin.tenants.index', compact('tenants', 'properties'));
     }
 
     public function search(Request $request)
     {
         $query = Tenant::with('property');
-        
+
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('phone', 'like', "%{$search}%")
-                  ->orWhere('property_unit', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhere('property_unit', 'like', "%{$search}%");
             });
         }
-        
+
         if ($request->has('status') && $request->status != '') {
             $query->where('status', $request->status);
         }
-        
+
         if ($request->has('property_id') && $request->property_id != '') {
             $query->where('property_id', $request->property_id);
         }
-        
-        $tenants = $query->paginate(2);
-        
+
+        $tenants = $query->paginate(4);
+
         return response()->json([
             'html' => view('admin.tenants.partials.tenants_table', compact('tenants'))->render(),
             'pagination' => view('admin.tenants.partials.pagination', compact('tenants'))->render()
@@ -104,7 +104,7 @@ class TenantController extends Controller
         $validated['property_unit'] = $property->code . ' - ' . $property->name;
 
         Tenant::create($validated);
-        
+
         // Update property status to rented only if tenant is active
         if ($request->status === 'active') {
             $property->update(['status' => 'rented']);
