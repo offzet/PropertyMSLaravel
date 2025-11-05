@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-50">
     <!-- Navigation -->
     <x-layouts.customer-nav />
@@ -20,12 +22,13 @@
                 <i class="fas fa-chevron-right text-gray-400"></i>
                 <span class="text-gray-900">{{ $property->name }}</span>
             </nav>
-            
+
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                 <div>
                     <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ $property->name }}</h1>
                     <div class="flex items-center space-x-4">
-                        <span class="px-3 py-1 rounded-full text-sm font-semibold 
+                        <span
+                            class="px-3 py-1 rounded-full text-sm font-semibold
                             {{ $property->status == 'available' ? 'bg-green-500 text-white' : 'bg-orange-500 text-white' }}">
                             {{ ucfirst($property->status) }}
                         </span>
@@ -48,7 +51,7 @@
     <!-- Property Content -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Error Messages -->
-        @if(session('error'))
+        @if (session('error'))
             <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
                 <div class="flex items-center">
                     <i class="fas fa-exclamation-triangle text-red-500 text-xl mr-2"></i>
@@ -66,28 +69,26 @@
                 <!-- Property Images Gallery -->
                 <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
                     <h2 class="text-2xl font-bold text-gray-900 mb-4">Property Images</h2>
-                    
-                    @if($property->image)
+
+                    @if ($property->image)
                         <!-- Main Large Image -->
                         <div class="mb-4">
-                            <img id="mainImage" 
-                                 src="{{ Storage::url($property->image) }}" 
-                                 alt="{{ $property->name }}" 
-                                 class="w-full h-80 object-cover rounded-lg">
+                            <img id="mainImage" src="{{ Storage::url($property->image) }}" alt="{{ $property->name }}"
+                                class="w-full h-80 object-cover rounded-lg">
                         </div>
 
                         <!-- Thumbnail Gallery -->
                         <div class="flex justify-center">
                             <div class="cursor-pointer">
-                                <img src="{{ Storage::url($property->image) }}" 
-                                     alt="{{ $property->name }}" 
-                                     class="w-24 h-24 object-cover rounded-lg border-2 border-blue-500"
-                                     onclick="changeMainImage('{{ Storage::url($property->image) }}')">
+                                <img src="{{ Storage::url($property->image) }}" alt="{{ $property->name }}"
+                                    class="w-24 h-24 object-cover rounded-lg border-2 border-blue-500"
+                                    onclick="changeMainImage('{{ Storage::url($property->image) }}')">
                             </div>
                         </div>
                     @else
                         <!-- Default image if no images uploaded -->
-                        <div class="bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl h-80 flex items-center justify-center text-white">
+                        <div
+                            class="bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl h-80 flex items-center justify-center text-white">
                             <div class="text-center">
                                 <i class="fas fa-home text-6xl mb-4"></i>
                                 <p class="text-xl">No Images Available</p>
@@ -99,32 +100,32 @@
                 <!-- Property Details -->
                 <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
                     <h2 class="text-2xl font-bold text-gray-900 mb-4">Property Details</h2>
-                    
+
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
-                        @if($property->bedrooms)
-                        <div class="text-center">
-                            <i class="fas fa-bed text-blue-500 text-2xl mb-2"></i>
-                            <div class="font-semibold text-gray-900">{{ $property->bedrooms }}</div>
-                            <div class="text-sm text-gray-600">Bedrooms</div>
-                        </div>
+                        @if ($property->bedrooms)
+                            <div class="text-center">
+                                <i class="fas fa-bed text-blue-500 text-2xl mb-2"></i>
+                                <div class="font-semibold text-gray-900">{{ $property->bedrooms }}</div>
+                                <div class="text-sm text-gray-600">Bedrooms</div>
+                            </div>
                         @endif
-                        
-                        @if($property->bathrooms)
-                        <div class="text-center">
-                            <i class="fas fa-bath text-blue-500 text-2xl mb-2"></i>
-                            <div class="font-semibold text-gray-900">{{ $property->bathrooms }}</div>
-                            <div class="text-sm text-gray-600">Bathrooms</div>
-                        </div>
+
+                        @if ($property->bathrooms)
+                            <div class="text-center">
+                                <i class="fas fa-bath text-blue-500 text-2xl mb-2"></i>
+                                <div class="font-semibold text-gray-900">{{ $property->bathrooms }}</div>
+                                <div class="text-sm text-gray-600">Bathrooms</div>
+                            </div>
                         @endif
-                        
-                        @if($property->area_sqm)
-                        <div class="text-center">
-                            <i class="fas fa-vector-square text-blue-500 text-2xl mb-2"></i>
-                            <div class="font-semibold text-gray-900">{{ $property->area_sqm }} m²</div>
-                            <div class="text-sm text-gray-600">Area</div>
-                        </div>
+
+                        @if ($property->area_sqm)
+                            <div class="text-center">
+                                <i class="fas fa-vector-square text-blue-500 text-2xl mb-2"></i>
+                                <div class="font-semibold text-gray-900">{{ $property->area_sqm }} m²</div>
+                                <div class="text-sm text-gray-600">Area</div>
+                            </div>
                         @endif
-                        
+
                         <div class="text-center">
                             <i class="fas fa-building text-blue-500 text-2xl mb-2"></i>
                             <div class="font-semibold text-gray-900">{{ ucfirst($property->type) }}</div>
@@ -132,11 +133,11 @@
                         </div>
                     </div>
 
-                    @if($property->description)
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Description</h3>
-                        <p class="text-gray-600 leading-relaxed">{{ $property->description }}</p>
-                    </div>
+                    @if ($property->description)
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Description</h3>
+                            <p class="text-gray-600 leading-relaxed">{{ $property->description }}</p>
+                        </div>
                     @endif
                 </div>
 
@@ -147,7 +148,8 @@
                         <i class="fas fa-map-marker-alt text-red-500 mt-1"></i>
                         <div>
                             <p class="text-gray-900 font-semibold">{{ $property->location }}</p>
-                            <p class="text-gray-600 text-sm mt-1">Conveniently located with easy access to amenities and transportation.</p>
+                            <p class="text-gray-600 text-sm mt-1">Conveniently located with easy access to amenities and
+                                transportation.</p>
                         </div>
                     </div>
                 </div>
@@ -158,11 +160,12 @@
                 <!-- Contact Information (Static) -->
                 <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-blue-200">
                     <h3 class="text-xl font-bold text-gray-900 mb-4">Contact Information</h3>
-                    
+
                     <div class="space-y-4">
                         <!-- Property Manager -->
                         <div class="flex items-start space-x-3">
-                            <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+                            <div
+                                class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
                                 JS
                             </div>
                             <div class="flex-1">
@@ -197,7 +200,7 @@
                 <!-- Rent This Property -->
                 <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-green-200">
                     <h3 class="text-xl font-bold text-gray-900 mb-4">Rent This Property</h3>
-                    
+
                     @php
                         // Check if property has pending or approved applications
                         $hasPendingApplications = \App\Models\Tenant::where('property_id', $property->id)
@@ -205,7 +208,7 @@
                             ->exists();
                     @endphp
 
-                    @if($property->status == 'available' && !$hasPendingApplications)
+                    @if ($property->status == 'available' && !$hasPendingApplications)
                         <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
                             <div class="flex items-center">
                                 <i class="fas fa-check-circle text-green-500 text-xl mr-2"></i>
@@ -213,41 +216,36 @@
                             </div>
                             <p class="text-green-600 text-sm mt-1">Ready for immediate move-in</p>
                         </div>
-                        
+
                         <!-- Rental Application Form -->
-                        <form action="{{ route('customer.applications.store', $property->id) }}" method="POST" class="space-y-4" id="rentalForm">
+                        <form action="{{ route('customer.applications.store', $property->id) }}" method="POST"
+                            class="space-y-4" id="rentalForm">
                             @csrf
-                            
+
                             <!-- Personal Information (Auto-filled) -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-                                <input type="text" name="name" required 
-                                       value="{{ Auth::user()->name }}"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50">
+                                <input type="text" name="name" required value="{{ Auth::user()->name }}"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50">
                                 <p class="text-xs text-gray-500 mt-1">Auto-filled from your profile</p>
                             </div>
 
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                                    <input type="email" name="email" required 
-                                           value="{{ Auth::user()->email }}"
-                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50">
+                                    <input type="email" name="email" required value="{{ Auth::user()->email }}"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50">
                                     <p class="text-xs text-gray-500 mt-1">Auto-filled</p>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
-                                    <input type="tel" 
-                                        name="phone" 
-                                        id="phone" 
-                                        required 
-                                        value="{{ Auth::user()->phone ?? '' }}"
-                                        placeholder="09XX XXX XXXX"
+                                    <input type="tel" name="phone" id="phone" required
+                                        value="{{ Auth::user()->phone ?? '' }}" placeholder="09XX XXX XXXX"
                                         maxlength="13"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 {{ Auth::user()->phone ? 'bg-gray-50' : '' }}"
-                                        @if(Auth::user()->phone) data-auto-filled="true" @endif>
+                                        @if (Auth::user()->phone) data-auto-filled="true" @endif>
                                     <p class="text-xs text-gray-500 mt-1" id="phoneHelp">
-                                        @if(Auth::user()->phone)
+                                        @if (Auth::user()->phone)
                                             Auto-filled from your profile
                                         @else
                                             Enter your 11-digit Philippine mobile number (e.g., 0912 345 6789)
@@ -259,16 +257,18 @@
                             <!-- Rental Period -->
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Lease Start Date *</label>
-                                    <input type="date" name="lease_start" id="lease_start" required 
-                                           min="{{ date('Y-m-d', strtotime('+1 day')) }}"
-                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Lease Start Date
+                                        *</label>
+                                    <input type="date" name="lease_start" id="lease_start" required
+                                        min="{{ date('Y-m-d', strtotime('+1 day')) }}"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Lease End Date *</label>
-                                    <input type="date" name="lease_end" id="lease_end" required 
-                                           min="{{ date('Y-m-d', strtotime('+2 days')) }}"
-                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Lease End Date
+                                        *</label>
+                                    <input type="date" name="lease_end" id="lease_end" required
+                                        min="{{ date('Y-m-d', strtotime('+2 days')) }}"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                                 </div>
                             </div>
 
@@ -278,10 +278,9 @@
                                     Monthly Rent (₱) *
                                 </label>
                                 <div class="relative">
-                                    <input type="number" name="rent_amount" required 
-                                           value="{{ $property->price }}"
-                                           readonly
-                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-700 font-semibold">
+                                    <input type="number" name="rent_amount" required value="{{ $property->price }}"
+                                        readonly
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-700 font-semibold">
                                     <div class="absolute inset-y-0 right-0 flex items-center pr-3">
                                         <i class="fas fa-lock text-gray-400"></i>
                                     </div>
@@ -293,24 +292,26 @@
 
                             <!-- Additional Information -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Additional Message (Optional)</label>
-                                <textarea name="message" rows="3" placeholder="Tell us about yourself, your rental history, or any special requirements..."
-                                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Additional Message
+                                    (Optional)</label>
+                                <textarea name="message" rows="3"
+                                    placeholder="Tell us about yourself, your rental history, or any special requirements..."
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
                             </div>
 
                             <!-- Terms and Conditions -->
                             <div class="flex items-start space-x-2">
                                 <input type="checkbox" name="terms" id="terms" required
-                                       class="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                    class="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
                                 <label for="terms" class="text-sm text-gray-600">
-                                    I agree to the <a href="#" class="text-blue-600 hover:underline">terms and conditions</a> 
+                                    I agree to the <strong>terms and conditions</strong>
                                     and understand that this application is subject to approval.
                                 </label>
                             </div>
 
                             <!-- Submit Button -->
-                            <button type="submit" 
-                                    class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-semibold text-center transition duration-300 transform hover:scale-105 flex items-center justify-center">
+                            <button type="submit"
+                                class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-semibold text-center transition duration-300 transform hover:scale-105 flex items-center justify-center">
                                 <i class="fas fa-file-contract mr-2"></i>
                                 Submit Rental Application
                             </button>
@@ -322,29 +323,32 @@
                                 <i class="fas fa-exclamation-triangle text-orange-500 text-xl mr-2"></i>
                                 <div>
                                     <span class="text-orange-800 font-semibold">
-                                        @if($property->status != 'available')
+                                        @if ($property->status != 'available')
                                             Property {{ ucfirst($property->status) }}
                                         @elseif($hasPendingApplications)
                                             Application in Progress
                                         @endif
                                     </span>
                                     <p class="text-orange-600 text-sm mt-1">
-                                        @if($property->status != 'available')
-                                            Sorry, this property has already been rented or sold by another customer and is waiting for admin confirmation.
+                                        @if ($property->status != 'available')
+                                            Sorry, this property has already been rented or sold by another customer and
+                                            is waiting for admin confirmation.
                                         @elseif($hasPendingApplications)
-                                            Sorry, this property already has a pending or approved application from another customer and is waiting for admin confirmation.
+                                            Sorry, this property already has a pending or approved application from
+                                            another customer and is waiting for admin confirmation.
                                         @endif
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Notify When Available -->
                         <div class="mt-4 p-4 bg-gray-50 rounded-lg">
                             <h4 class="font-semibold text-gray-900 mb-2">Find Similar Properties</h4>
-                            <p class="text-gray-600 text-sm mb-3">Browse other available properties in our collection.</p>
-                            <a href="{{ route('customer.properties.index') }}" 
-                               class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm font-semibold transition duration-300 inline-flex items-center justify-center">
+                            <p class="text-gray-600 text-sm mb-3">Browse other available properties in our collection.
+                            </p>
+                            <a href="{{ route('customer.properties.index') }}"
+                                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm font-semibold transition duration-300 inline-flex items-center justify-center">
                                 <i class="fas fa-search mr-2"></i>
                                 Browse Available Properties
                             </a>
@@ -362,7 +366,8 @@
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-600">Status:</span>
-                            <span class="font-semibold {{ $property->status == 'available' ? 'text-green-600' : 'text-orange-600' }}">
+                            <span
+                                class="font-semibold {{ $property->status == 'available' ? 'text-green-600' : 'text-orange-600' }}">
                                 {{ ucfirst($property->status) }}
                             </span>
                         </div>
@@ -374,23 +379,23 @@
                             <span class="text-gray-600">Monthly Rent:</span>
                             <span class="font-semibold text-blue-600">₱{{ number_format($property->price) }}</span>
                         </div>
-                        @if($property->bedrooms)
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Bedrooms:</span>
-                            <span class="font-semibold">{{ $property->bedrooms }}</span>
-                        </div>
+                        @if ($property->bedrooms)
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Bedrooms:</span>
+                                <span class="font-semibold">{{ $property->bedrooms }}</span>
+                            </div>
                         @endif
-                        @if($property->bathrooms)
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Bathrooms:</span>
-                            <span class="font-semibold">{{ $property->bathrooms }}</span>
-                        </div>
+                        @if ($property->bathrooms)
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Bathrooms:</span>
+                                <span class="font-semibold">{{ $property->bathrooms }}</span>
+                            </div>
                         @endif
-                        @if($property->area_sqm)
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Area:</span>
-                            <span class="font-semibold">{{ $property->area_sqm }} m²</span>
-                        </div>
+                        @if ($property->area_sqm)
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Area:</span>
+                                <span class="font-semibold">{{ $property->area_sqm }} m²</span>
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -415,10 +420,10 @@
         function formatPhoneNumber(input) {
             // Remove all non-digit characters
             let value = input.value.replace(/\D/g, '');
-            
+
             // If empty, return empty
             if (!value) return '';
-            
+
             // Ensure it starts with 0 or 63
             if (value.startsWith('0')) {
                 // Keep as is - starts with 0
@@ -429,12 +434,12 @@
                 // If starts with 9 and has 10 digits, prepend 0
                 value = '0' + value;
             }
-            
+
             // Limit to 11 digits total (0 + 10 digits)
             if (value.length > 11) {
                 value = value.substring(0, 11);
             }
-            
+
             // Format: 09XX XXX XXXX
             let formatted = '';
             if (value.length > 0) {
@@ -446,7 +451,7 @@
             if (value.length > 7) {
                 formatted += ' ' + value.substring(7, 11); // XXXX
             }
-            
+
             input.value = formatted;
         }
 
@@ -454,7 +459,7 @@
         function convertToInternationalFormat(phone) {
             // Remove all non-digit characters and spaces
             let value = phone.replace(/\D/g, '');
-            
+
             if (value.startsWith('0')) {
                 return '+63' + value.substring(1);
             } else if (value.startsWith('63')) {
@@ -479,7 +484,7 @@
             const startDate = new Date(this.value);
             const endDate = new Date(startDate);
             endDate.setFullYear(endDate.getFullYear() + 1); // Default 1 year lease
-            
+
             const endDateInput = document.getElementById('lease_end');
             if (endDateInput) {
                 endDateInput.min = this.value; // Ensure end date is after start date
@@ -505,7 +510,7 @@
                 isValid = false;
                 errorMessages.push('Lease start date must be in the future.');
             }
-            
+
             if (endDate <= startDate) {
                 isValid = false;
                 errorMessages.push('Lease end date must be after the start date.');
@@ -514,13 +519,15 @@
             // Validate phone number
             const phoneInput = document.getElementById('phone');
             const phone = phoneInput.value;
-            
+
             if (!phone) {
                 isValid = false;
                 errorMessages.push('Please enter your phone number.');
             } else if (!validatePhoneNumber(phone)) {
                 isValid = false;
-                errorMessages.push('Please enter a valid 11-digit Philippine mobile number.\n\nFormat: 0912 345 6789\n\nCurrent input: ' + phone);
+                errorMessages.push(
+                    'Please enter a valid 11-digit Philippine mobile number.\n\nFormat: 0912 345 6789\n\nCurrent input: ' +
+                    phone);
             }
 
             // Validate terms and conditions
@@ -544,14 +551,14 @@
         document.addEventListener('DOMContentLoaded', function() {
             const startDateInput = document.getElementById('lease_start');
             const endDateInput = document.getElementById('lease_end');
-            
+
             if (startDateInput && !startDateInput.value) {
                 // Set minimum start date to tomorrow
                 const tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
                 startDateInput.min = tomorrow.toISOString().split('T')[0];
             }
-            
+
             if (endDateInput && !endDateInput.value) {
                 // Set minimum end date to day after tomorrow
                 const dayAfterTomorrow = new Date();
@@ -580,21 +587,23 @@
             // Add input event listener for real-time formatting
             phoneInput?.addEventListener('input', function() {
                 formatPhoneNumber(this);
-                
+
                 // Real-time validation
                 const phone = this.value;
                 const phoneHelp = document.getElementById('phoneHelp');
-                
+
                 if (phone && validatePhoneNumber(phone)) {
                     this.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
-                    this.classList.add('border-green-500', 'focus:border-green-500', 'focus:ring-green-500');
+                    this.classList.add('border-green-500', 'focus:border-green-500',
+                        'focus:ring-green-500');
                     if (phoneHelp) {
                         phoneHelp.textContent = 'Valid Philippine mobile number';
                         phoneHelp.classList.remove('text-red-500');
                         phoneHelp.classList.add('text-green-500');
                     }
                 } else if (phone) {
-                    this.classList.remove('border-green-500', 'focus:border-green-500', 'focus:ring-green-500');
+                    this.classList.remove('border-green-500', 'focus:border-green-500',
+                        'focus:ring-green-500');
                     this.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
                     if (phoneHelp) {
                         phoneHelp.textContent = 'Please enter 11 digits (09XX XXX XXXX)';
@@ -602,10 +611,12 @@
                         phoneHelp.classList.add('text-red-500');
                     }
                 } else {
-                    this.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500', 'border-green-500', 'focus:border-green-500', 'focus:ring-green-500');
+                    this.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500',
+                        'border-green-500', 'focus:border-green-500', 'focus:ring-green-500');
                     this.classList.add('border-gray-300', 'focus:border-blue-500', 'focus:ring-blue-500');
                     if (phoneHelp) {
-                        phoneHelp.textContent = 'Enter your 11-digit Philippine mobile number (e.g., 0912 345 6789)';
+                        phoneHelp.textContent =
+                            'Enter your 11-digit Philippine mobile number (e.g., 0912 345 6789)';
                         phoneHelp.classList.remove('text-red-500', 'text-green-500');
                         phoneHelp.classList.add('text-gray-500');
                     }
@@ -646,4 +657,5 @@
         });
     </script>
 </body>
+
 </html>
