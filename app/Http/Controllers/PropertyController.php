@@ -39,7 +39,7 @@ class PropertyController extends Controller
 
         Property::create($validated);
 
-        // DIRECT REDIRECT TO PROPERTIES PAGE - GAMITIN ANG DIRECT URL
+        // DIRECT REDIRECT TO PROPERTIES PAGE
         return redirect('/properties')
             ->with('success', 'Property added successfully!');
     }
@@ -62,13 +62,13 @@ class PropertyController extends Controller
             'bathrooms' => 'nullable|integer|min:0',
             'area_sqm' => 'nullable|numeric|min:0'
         ]);
-        
+
         $property->update($validated);
 
         return redirect()->route('admin.properties')
             ->with('success', 'Property updated successfully!');
     }
-        
+
     public function destroy(Property $property)
     {
         $property->delete();
@@ -80,7 +80,7 @@ class PropertyController extends Controller
 
     private function generatePropertyCode($type)
     {
-        $prefix = match($type) {
+        $prefix = match ($type) {
             'apartment' => 'APT',
             'house' => 'HSE',
             'townhouse' => 'TH',

@@ -21,12 +21,10 @@ class CustomerMiddleware
             return redirect()->route('login');
         }
 
-        // Check kung customer ang user
         if (Auth::user()->user_type === 'user') {
-            return $next($request); // Payagan ang access sa customer routes
+            return $next($request);
         }
 
-        // Kung admin, i-redirect sa admin dashboard
         return redirect()->route('admin.dashboard');
     }
 }
