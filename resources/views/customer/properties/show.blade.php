@@ -35,10 +35,6 @@
                         <span class="px-3 py-1 rounded-full bg-blue-600 text-white text-sm font-semibold">
                             {{ ucfirst($property->type) }}
                         </span>
-                        <div class="flex items-center text-gray-600">
-                            <i class="fas fa-map-marker-alt text-red-500 mr-1"></i>
-                            <span>{{ $property->location }}</span>
-                        </div>
                     </div>
                 </div>
                 <div class="mt-4 lg:mt-0">
@@ -224,7 +220,7 @@
 
                             <!-- Personal Information (Auto-filled) -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                                 <input type="text" name="name" required value="{{ Auth::user()->name }}"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50">
                                 <p class="text-xs text-gray-500 mt-1">Auto-filled from your profile</p>
@@ -232,13 +228,13 @@
 
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
                                     <input type="email" name="email" required value="{{ Auth::user()->email }}"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50">
                                     <p class="text-xs text-gray-500 mt-1">Auto-filled</p>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                                     <input type="tel" name="phone" id="phone" required
                                         value="{{ Auth::user()->phone ?? '' }}" placeholder="09XX XXX XXXX"
                                         maxlength="13"
@@ -258,14 +254,14 @@
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Lease Start Date
-                                        *</label>
+                                    </label>
                                     <input type="date" name="lease_start" id="lease_start" required
                                         min="{{ date('Y-m-d', strtotime('+1 day')) }}"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Lease End Date
-                                        *</label>
+                                    </label>
                                     <input type="date" name="lease_end" id="lease_end" required
                                         min="{{ date('Y-m-d', strtotime('+2 days')) }}"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -302,7 +298,7 @@
                             <button type="submit"
                                 class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-semibold text-center transition duration-300 transform hover:scale-105 flex items-center justify-center">
                                 <i class="fas fa-file-contract mr-2"></i>
-                                Submit Rental Application
+                                Pay to Submit Rental Application
                             </button>
                         </form>
                     @else
