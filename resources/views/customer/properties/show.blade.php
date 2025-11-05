@@ -248,7 +248,7 @@
                                         @if (Auth::user()->phone)
                                             Auto-filled from your profile
                                         @else
-                                            Enter your 11-digit Philippine mobile number (e.g., 0912 345 6789)
+                                            Enter your 11-digit mobile number (e.g., 0912 345 6789)
                                         @endif
                                     </p>
                                 </div>
@@ -272,22 +272,11 @@
                                 </div>
                             </div>
 
-                            <!-- Proposed Rent - Auto-retrieved from property price -->
+                            <!-- Rent Price -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">
-                                    Monthly Rent (₱) *
-                                </label>
-                                <div class="relative">
-                                    <input type="number" name="rent_amount" required value="{{ $property->price }}"
-                                        readonly
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-700 font-semibold">
-                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-                                        <i class="fas fa-lock text-gray-400"></i>
-                                    </div>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-1">
-                                    Fixed monthly rent: ₱{{ number_format($property->price) }}
-                                </p>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Rent</label>
+                                <div class="text-2xl font-semibold text-gray-900">
+                                    ₱{{ number_format($property->price) }} per month</div>
                             </div>
 
                             <!-- Additional Information -->
@@ -356,49 +345,7 @@
                     @endif
                 </div>
 
-                <!-- Property Info -->
-                <div class="bg-white rounded-2xl shadow-lg p-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Property Information</h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Property Code:</span>
-                            <span class="font-semibold">{{ $property->code }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Status:</span>
-                            <span
-                                class="font-semibold {{ $property->status == 'available' ? 'text-green-600' : 'text-orange-600' }}">
-                                {{ ucfirst($property->status) }}
-                            </span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Type:</span>
-                            <span class="font-semibold">{{ ucfirst($property->type) }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Monthly Rent:</span>
-                            <span class="font-semibold text-blue-600">₱{{ number_format($property->price) }}</span>
-                        </div>
-                        @if ($property->bedrooms)
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Bedrooms:</span>
-                                <span class="font-semibold">{{ $property->bedrooms }}</span>
-                            </div>
-                        @endif
-                        @if ($property->bathrooms)
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Bathrooms:</span>
-                                <span class="font-semibold">{{ $property->bathrooms }}</span>
-                            </div>
-                        @endif
-                        @if ($property->area_sqm)
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Area:</span>
-                                <span class="font-semibold">{{ $property->area_sqm }} m²</span>
-                            </div>
-                        @endif
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -416,7 +363,7 @@
             document.getElementById('mainImage').src = imageUrl;
         }
 
-        // Improved Phone number formatting function for Philippine numbers
+        // Improved Phone number formatting function for numbers
         function formatPhoneNumber(input) {
             // Remove all non-digit characters
             let value = input.value.replace(/\D/g, '');
@@ -526,7 +473,7 @@
             } else if (!validatePhoneNumber(phone)) {
                 isValid = false;
                 errorMessages.push(
-                    'Please enter a valid 11-digit Philippine mobile number.\n\nFormat: 0912 345 6789\n\nCurrent input: ' +
+                    'Please enter a valid 11-digit mobile number.\n\nFormat: 0912 345 6789\n\nCurrent input: ' +
                     phone);
             }
 
@@ -597,7 +544,7 @@
                     this.classList.add('border-green-500', 'focus:border-green-500',
                         'focus:ring-green-500');
                     if (phoneHelp) {
-                        phoneHelp.textContent = 'Valid Philippine mobile number';
+                        phoneHelp.textContent = 'Valid mobile number';
                         phoneHelp.classList.remove('text-red-500');
                         phoneHelp.classList.add('text-green-500');
                     }
@@ -616,7 +563,7 @@
                     this.classList.add('border-gray-300', 'focus:border-blue-500', 'focus:ring-blue-500');
                     if (phoneHelp) {
                         phoneHelp.textContent =
-                            'Enter your 11-digit Philippine mobile number (e.g., 0912 345 6789)';
+                            'Enter your 11-digit mobile number (e.g., 0912 345 6789)';
                         phoneHelp.classList.remove('text-red-500', 'text-green-500');
                         phoneHelp.classList.add('text-gray-500');
                     }
