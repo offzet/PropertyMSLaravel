@@ -346,7 +346,7 @@
                 Properties</h2>
             <p class="text-lg text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto" data-aos="fade-up"
                 data-aos-delay="100">
-                Our platform provides all the tools you need to efficiently manage your property portfolio.
+                Our platform provides all the tools you need to efficiently manage your property.
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

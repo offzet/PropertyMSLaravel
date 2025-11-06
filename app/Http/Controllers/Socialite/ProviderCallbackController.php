@@ -16,7 +16,7 @@ class ProviderCallbackController extends Controller
     {
         try {
             $socialUser = Socialite::driver($provider)->user();
-            
+
             // Check if user already exists with this email but different provider
             $existingUser = User::where('email', $socialUser->getEmail())->first();
 
@@ -28,7 +28,7 @@ class ProviderCallbackController extends Controller
                     'provider_token' => $socialUser->token,
                     'provider_refresh_token' => $socialUser->refreshToken,
                 ]);
-                
+
                 $user = $existingUser;
             } else {
                 // Create new user if doesn't exist
@@ -53,7 +53,6 @@ class ProviderCallbackController extends Controller
 
             // Redirect based on user role
             return $this->redirectToProperPage($user);
-
         } catch (\Exception $e) {
             Log::error('Socialite authentication failed:', [
                 'provider' => $provider,
@@ -70,11 +69,11 @@ class ProviderCallbackController extends Controller
     private function generateUniqueUsername($socialUser)
     {
         $baseUsername = Str::slug($socialUser->getName(), '_');
-        
+
         if (empty($baseUsername) || strlen($baseUsername) < 3) {
             $baseUsername = Str::before($socialUser->getEmail(), '@');
         }
-        
+
         $username = $baseUsername;
 
         while (User::where('username', $username)->exists()) {
@@ -90,7 +89,7 @@ class ProviderCallbackController extends Controller
         if ($user->is_admin || $user->hasRole('admin')) {
             return redirect()->route('dashboard');
         } else {
-            return redirect()->route('customer.landing');
+            return redirect()->route('customer.dashboard');
         }
     }
 }

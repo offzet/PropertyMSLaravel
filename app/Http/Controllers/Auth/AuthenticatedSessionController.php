@@ -30,13 +30,13 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::user();
 
-    // Redirect depende sa role
+        // Redirect depende sa role
         if ($user->user_type === 'admin') {
             return redirect()->route('dashboard');
         }
         // default user landing page
-        return redirect()->route('customer.landing');
-        }
+        return redirect()->route('customer.dashboard');
+    }
 
     /**
      * Destroy an authenticated session.

@@ -165,7 +165,7 @@
                                 JS
                             </div>
                             <div class="flex-1">
-                                <h4 class="font-semibold text-gray-900">Basty Mirafelix</h4>
+                                <h4 class="font-semibold text-gray-900">Mark Irish Bacinto</h4>
                                 <p class="text-sm text-gray-600">Property Manager</p>
                                 <div class="flex items-center mt-1 text-sm text-gray-500">
                                     <i class="fas fa-star text-yellow-400 mr-1"></i>

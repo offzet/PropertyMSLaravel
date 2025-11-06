@@ -503,7 +503,7 @@
                 yPosition = checkPageBreak(yPosition);
 
                 yPosition = addText('The lease term shall be for a period of ' +
-                    '{{ \Carbon\Carbon::parse($tenant->lease_start)->diffInMonths(\Carbon\Carbon::parse($tenant->lease_end)) }} months' +
+                    '{{ (int) \Carbon\Carbon::parse($tenant->lease_start)->diffInMonths(\Carbon\Carbon::parse($tenant->lease_end)) }} months' +
                     ' commencing on:', yPosition);
                 yPosition += lineHeight;
 
@@ -519,12 +519,42 @@
                 yPosition = addSection('4. RENTAL PAYMENTS AND CHARGES', yPosition);
                 yPosition = checkPageBreak(yPosition);
 
-                yPosition = addText('4.1 Monthly Rent: ₱{{ number_format($tenant->rent_amount, 2) }}', yPosition,
-                    true);
-                yPosition = addText('4.2 Payment Due Date: 5th day of each calendar month', yPosition);
-                yPosition = addText('4.3 Late Payment Fee: 5% of monthly rent if paid after due date', yPosition);
-                yPosition = addText('4.4 Security Deposit: Equivalent to one (1) month\'s rent', yPosition);
-                yPosition = addText('4.5 Payment Methods: Bank transfer, GCash, or Manager\'s Check', yPosition);
+                // Format rent amount using JavaScript (use ASCII 'PHP' currency to avoid jsPDF font/encoding issues)
+                const rentAmount = {{ $tenant->rent_amount }};
+                const formattedRent = rentAmount.toLocaleString('en-PH', {
+                    style: 'currency',
+                    currency: 'PHP',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
+                // Create section content as plain strings
+                const rentalLines = [{
+                        text: '4.1 Monthly Rent: ' + formattedRent,
+                        bold: true
+                    },
+                    {
+                        text: '4.2 Payment Due Date: 5th day of each calendar month',
+                        bold: false
+                    },
+                    {
+                        text: '4.3 Late Payment Fee: 5% of monthly rent if paid after due date',
+                        bold: false
+                    },
+                    {
+                        text: '4.4 Security Deposit: Equivalent to one (1) month\'s rent',
+                        bold: false
+                    },
+                    {
+                        text: '4.5 Payment Methods: Bank transfer, GCash, or Manager\'s Check',
+                        bold: false
+                    }
+                ];
+
+                // Add each line separately
+                rentalLines.forEach(line => {
+                    yPosition = addText(line.text, yPosition, line.bold);
+                });
                 yPosition += lineHeight;
 
                 // TERMS AND CONDITIONS
@@ -591,7 +621,7 @@
                 const today = new Date();
                 const dateString = today.toLocaleDateString();
                 doc.text('Document generated on ' + dateString +
-                    ' • Property Management Services • Confidential and Proprietary',
+                    ' - Property Management Services - Confidential and Proprietary',
                     pageWidth / 2, 290, {
                         align: 'center'
                     });
